@@ -1,6 +1,6 @@
 package com.controlj.addon.setpoint;
 
-import com.controlj.green.addonsupport.AddOnInfo;
+import com.controlj.green.addonsupport.access.DirectAccess;
 import com.controlj.green.addonsupport.access.SystemConnection;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -17,7 +17,7 @@ public class ViewSetpointAction extends Action
    {
       final String path = request.getParameter("grouppath");
 
-      SystemConnection connection = AddOnInfo.getAddOnInfo().getUserSystemConnection(request);
+      SystemConnection connection = DirectAccess.getDirectAccess().getUserSystemConnection(request);
       GroupSetpoint gs = new GroupSetpoint(path, connection);
       gs.load();
                                 

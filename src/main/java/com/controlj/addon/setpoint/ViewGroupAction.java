@@ -2,7 +2,6 @@ package com.controlj.addon.setpoint;
 
 import com.controlj.green.addonsupport.access.*;
 import com.controlj.green.addonsupport.InvalidConnectionRequestException;
-import com.controlj.green.addonsupport.AddOnInfo;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -26,7 +25,7 @@ public class ViewGroupAction extends Action
 
    public List<GroupWrapper> getGroupList(HttpServletRequest request) throws InvalidConnectionRequestException, SystemException, ActionExecutionException
    {
-      SystemConnection connection = AddOnInfo.getAddOnInfo().getUserSystemConnection(request);
+      SystemConnection connection = DirectAccess.getDirectAccess().getUserSystemConnection(request);
       final List<GroupWrapper> result = new ArrayList<GroupWrapper>();
 
       connection.runReadAction(new ReadAction()

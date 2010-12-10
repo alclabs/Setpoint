@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.controlj.green.addonsupport.access.*;
 import com.controlj.green.addonsupport.access.value.InvalidValueException;
 import com.controlj.green.addonsupport.access.value.ErrorMessage;
-import com.controlj.green.addonsupport.AddOnInfo;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ChangeSetpointAction extends Action
          path  = form.getGroupPath();
       }
 
-      SystemConnection connection = AddOnInfo.getAddOnInfo().getUserSystemConnection(request);
+      SystemConnection connection = DirectAccess.getDirectAccess().getUserSystemConnection(request);
       GroupSetpoint gs = new GroupSetpoint(path, connection);
 
       try
