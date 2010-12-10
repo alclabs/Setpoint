@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+  "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+  "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="setpoint" type="com.controlj.addon.setpoint.SetpointForm"/>
+    </form-beans>
+    <action-mappings>
+        <action path="/viewgroup" type="com.controlj.addon.setpoint.ViewGroupAction">
+            <forward name="success" path="/WEB-INF/viewgroup.jsp"/>
+        </action>
+        <action path="/viewsetpoint" type="com.controlj.addon.setpoint.ViewSetpointAction" name="setpoint" scope="request">
+            <forward name="success" path="/WEB-INF/setpoint.jsp"/>
+        </action>
+        <action path="/changesetpoint"
+                type="com.controlj.addon.setpoint.ChangeSetpointAction"
+                name="setpoint"
+                scope="request"
+                input="/viewsetpoint.do">
+            <forward name="success" path="/WEB-INF/setpoint.jsp"/>
+            <forward name="error" path="/WEB-INF/setpoint.jsp"/>
+        </action>
+    </action-mappings>
+</struts-config>
