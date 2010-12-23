@@ -23,3 +23,34 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+-------------------------------------------------------------------------------
+gradle tool
+-------------------------------------------------------------------------------
+Website: http://gradle.org
+License: Apache version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+-------------------------------------------------------------------------------
+jstl package
+-------------------------------------------------------------------------------
+Website: http://java.sun.com/products/jsp/jstl/
+License: Unable to determine
+
+-------------------------------------------------------------------------------
+taglibs standard package
+-------------------------------------------------------------------------------
+Website: http://tomcat.apache.org/taglibs/standard/
+License: Apache version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+-------------------------------------------------------------------------------
+struts-core package
+-------------------------------------------------------------------------------
+Website: http://struts.apache.org/
+License: Apache version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+-------------------------------------------------------------------------------
+struts-taglib package
+-------------------------------------------------------------------------------
+Website: http://struts.apache.org/
+License: Apache version 2.0 - http://www.apache.org/licenses/LICENSE-2.0.html
+
+
