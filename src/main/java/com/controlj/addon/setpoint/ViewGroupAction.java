@@ -24,6 +24,8 @@ package com.controlj.addon.setpoint;
 
 import com.controlj.green.addonsupport.access.*;
 import com.controlj.green.addonsupport.InvalidConnectionRequestException;
+import com.controlj.green.addonsupport.access.aspect.Group;
+import com.controlj.green.addonsupport.access.util.Acceptors;
 import com.controlj.green.addonsupport.access.util.LocationSort;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -32,47 +34,52 @@ import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class ViewGroupAction extends Action
-{
-   @Override
-   public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws Exception
-   {
-      request.setAttribute("groups", getGroupList(request));
+public class ViewGroupAction extends Action {
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute("groups", getGroupList(request));
 
-      return mapping.findForward("success");
-   }
+        return mapping.findForward("success");
+    }
 
-   public List<GroupWrapper> getGroupList(HttpServletRequest request) throws InvalidConnectionRequestException, SystemException, ActionExecutionException
-   {
-      SystemConnection connection = DirectAccess.getDirectAccess().getUserSystemConnection(request);
-      final List<GroupWrapper> result = new ArrayList<GroupWrapper>();
+    public List<GroupWrapper> getGroupList(HttpServletRequest request) throws InvalidConnectionRequestException, SystemException, ActionExecutionException {
+        SystemConnection connection = DirectAccess.getDirectAccess().getUserSystemConnection(request);
+        final List<GroupWrapper> result = new ArrayList<GroupWrapper>();
 
-      connection.runReadAction(new ReadAction()
-      {
-         public void execute(SystemAccess systemAccess) throws Exception
-         {
-            Collection<Location> groups = systemAccess.getTree(SystemTree.Schedule_Group).getRoot().getChildren(LocationSort.PRESENTATION);
-            for (Location group : groups)
-            {
-               result.add(new GroupWrapper(group.getDisplayName(), group.getTransientLookupString()));
+        connection.runReadAction(new ReadAction() {
+            public void execute(SystemAccess systemAccess) throws Exception {
+                Location groupRoot = systemAccess.getTree(SystemTree.Schedule_Group).getRoot();
+                Collection<Group> groups = groupRoot.find(Group.class, Acceptors.<Aspect>acceptAll());
+
+                for (Group group : groups) {
+                    result.add(new GroupWrapper(getGroupLabel(group.getLocation(), groupRoot), group.getLocation().getTransientLookupString()));
+                }
             }
-         }
-      });
+        });
 
-      return result;
-   }
+        Collections.sort(result, new Comparator<GroupWrapper>() {
+            @Override
+            public int compare(GroupWrapper gw1, GroupWrapper gw2) {
+                return gw1.getName().compareTo(gw2.getName());
+            }
+        });
+        return result;
+    }
 
-   public List<GroupWrapper> getFakeGroupList(HttpServletRequest request)
-   {
-      List<GroupWrapper> list = new ArrayList<GroupWrapper>();
-      list.add(new GroupWrapper("High Schools", null));
-      list.add(new GroupWrapper("Middle Schools", null));
-      list.add(new GroupWrapper("Elementary Schools", null));
+    private String getGroupLabel(Location groupLocation, Location groupRoot) {
+        String displayPath = groupLocation.getDisplayPath();
+        String rootPath = groupRoot.getDisplayPath();
+        return displayPath.substring(rootPath.length()+2);
+    }
 
-      return list;
-   }
+    public List<GroupWrapper> getFakeGroupList(HttpServletRequest request) {
+        List<GroupWrapper> list = new ArrayList<GroupWrapper>();
+        list.add(new GroupWrapper("High Schools", null));
+        list.add(new GroupWrapper("Middle Schools", null));
+        list.add(new GroupWrapper("Elementary Schools", null));
+
+        return list;
+    }
 }
